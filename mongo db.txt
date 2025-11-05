@@ -1,0 +1,96 @@
+// Step 1: Switch to (or create) a database
+use collegeDB
+
+// Step 2: Create a collection
+db.createCollection("students")
+
+// Step 3: Insert Documents (CREATE Operation)
+db.students.insertOne({
+   roll_no: 1,
+   name: "Srushti",
+   branch: "AIDS",
+   marks: 85,
+   city: "Sangamner"
+})
+
+db.students.insertMany([
+   { roll_no: 2, name: "Lily", branch: "CSE", marks: 92, city: "Pune" },
+   { roll_no: 3, name: "Rahul", branch: "AIDS", marks: 75, city: "Nashik" },
+   { roll_no: 4, name: "Priya", branch: "IT", marks: 88, city: "Mumbai" }
+])
+
+// Step 4: Read Documents (READ Operation)
+
+// Display all documents
+db.students.find()
+
+// Display formatted output
+db.students.find().pretty()
+
+// Logical operators examples:
+
+// 1. Marks greater than 80
+db.students.find({ marks: { $gt: 80 } })
+
+// 2. Branch is AIDS and marks greater than 80
+db.students.find({ $and: [ { branch: "AIDS" }, { marks: { $gt: 80 } } ] })
+
+// 3. City is Pune OR Mumbai
+db.students.find({ $or: [ { city: "Pune" }, { city: "Mumbai" } ] })
+
+// 4. City is NOT Pune
+db.students.find({ city: { $ne: "Pune" } })
+
+// Step 5: Update Documents (UPDATE Operation)
+
+// Update single record (updateOne)
+db.students.updateOne(
+   { roll_no: 3 },
+   { $set: { marks: 82 } }
+)
+
+// Update multiple records (updateMany)
+db.students.updateMany(
+   { branch: "AIDS" },
+   { $set: { branch: "AI & DS" } }
+)
+
+// Step 6: Using SAVE() Method
+
+// Insert new document using save()
+db.students.save({
+   roll_no: 5,
+   name: "Aarav",
+   branch: "ECE",
+   marks: 90,
+   city: "Pune"
+})
+
+// Update existing document using save()
+// First, check _id of an existing document using:
+db.students.findOne()
+
+// Then, copy the _id of the document you want to update and replace it below:
+db.students.save({
+   _id: ObjectId("PUT_EXISTING_ID_HERE"),  // replace with actual _id
+   roll_no: 1,
+   name: "Srushti Khadamkar",
+   branch: "AI & DS",
+   marks: 90,
+   city: "Sangamner"
+})
+
+// Step 7: Delete Documents (DELETE Operation)
+
+// Delete one record
+db.students.deleteOne({ roll_no: 4 })
+
+// Delete multiple records (marks < 80)
+db.students.deleteMany({ marks: { $lt: 80 } })
+
+// Display remaining records
+db.students.find().pretty()
+
+// Step 8: Drop Collection and Database (optional)
+db.students.drop()
+db.dropDatabase()

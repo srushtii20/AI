@@ -1,0 +1,110 @@
+mysql> CREATE TABLE Department (
+         dept_id INT PRIMARY KEY,
+         dept_name VARCHAR(50) UNIQUE NOT NULL,
+         location VARCHAR(50) DEFAULT 'Sangamner'
+     );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE TABLE Student (
+        roll_no INT PRIMARY KEY,
+         name VARCHAR(50) NOT NULL,
+        age INT CHECK (age >= 18),
+         gender CHAR(1) CHECK (gender IN ('M','F')),
+        dept_id INT,
+         marks DECIMAL(5,2),
+         CONSTRAINT fk_dept FOREIGN KEY (dept_id) REFERENCES Department(dept_id)
+     );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO Department VALUES (1, 'Computer', 'Building A');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Department VALUES (2, 'Mechanical', 'Building B');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Department VALUES (3, 'Civil', 'Building C');
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> INSERT INTO Student VALUES (101, 'Srushti', 19, 'F', 1, 89.5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Student VALUES (102, 'Lily', 20, 'F', 1, 92.0);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Student VALUES (103, 'Abhi', 22, 'M', 2, 75.0);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Student VALUES (104, 'Kalpesh', 21, 'M', 3, 80.5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> CREATE VIEW Student_View AS
+    SELECT roll_no, name, dept_name, marks
+     FROM Student
+     JOIN Department ON Student.dept_id = Department.dept_id;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE INDEX idx_student_name ON Student(name);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Student MODIFY roll_no INT AUTO_INCREMENT;
+Query OK, 4 rows affected (0.10 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SHOW TABLES;
++----------------------+
+| Tables_in_college_db |
++----------------------+
+| department           |
+| dept                 |
+| learner              |
+| learner_view         |
+| student              |
+| student_view         |
++----------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Student;
++---------+---------+------+--------+---------+-------+
+| roll_no | name    | age  | gender | dept_id | marks |
++---------+---------+------+--------+---------+-------+
+|     101 | Srushti |   19 | F      |       1 | 89.50 |
+|     102 | Lily    |   20 | F      |       1 | 92.00 |
+|     103 | Abhi    |   22 | M      |       2 | 75.00 |
+|     104 | Kalpesh |   21 | M      |       3 | 80.50 |
++---------+---------+------+--------+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Department;
++---------+------------+------------+
+| dept_id | dept_name  | location   |
++---------+------------+------------+
+|       1 | Computer   | Building A |
+|       2 | Mechanical | Building B |
+|       3 | Civil      | Building C |
++---------+------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Student_View;
++---------+---------+------------+-------+
+| roll_no | name    | dept_name  | marks |
++---------+---------+------------+-------+
+|     104 | Kalpesh | Civil      | 80.50 |
+|     101 | Srushti | Computer   | 89.50 |
+|     102 | Lily    | Computer   | 92.00 |
+|     103 | Abhi    | Mechanical | 75.00 |
++---------+---------+------------+-------+
+4 rows in set (0.00 sec)
+mysql> DROP VIEW Student_View;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DROP INDEX idx_student_name ON Student;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DROP TABLE Student;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DROP TABLE Department;
+Query OK, 0 rows affected (0.03 sec)

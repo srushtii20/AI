@@ -1,0 +1,124 @@
+mysql> create database srushti ;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE srushti ;
+Database changed
+mysql> CREATE TABLE O_RollCall (
+         roll_no INT,
+       name VARCHAR(20),
+         address VARCHAR(20)
+     );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE N_RollCall (
+          roll_no INT,
+           name VARCHAR(20),
+           address VARCHAR(20)
+     );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO O_RollCall VALUES (1,'Hitesh','Nandura');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO O_RollCall VALUES (2,'Piyush','MP');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO O_RollCall VALUES (3,'Ashley','Nsk');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO O_RollCall VALUES (4,'Kalpesh','Dhule');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO O_RollCall VALUES (5,'Abhi','Satara');
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> SELECT * FROM O_RollCall;
++---------+---------+---------+
+| roll_no | name    | address |
++---------+---------+---------+
+|       1 | Hitesh  | Nandura |
+|       2 | Piyush  | MP      |
+|       3 | Ashley  | Nsk     |
+|       4 | Kalpesh | Dhule   |
+|       5 | Abhi    | Satara  |
++---------+---------+---------+
+5 rows in set (0.00 sec)
+
+mysql> DELIMITER //
+mysql> CREATE PROCEDURE p3(IN r1 INT)
+    	 BEGIN
+         DECLARE r2 INT;
+         DECLARE exit_loop BOOLEAN DEFAULT FALSE;
+    
+         DECLARE c1 CURSOR FOR
+            SELECT roll_no FROM O_RollCall WHERE roll_no > r1;
+    
+        DECLARE CONTINUE HANDLER FOR NOT FOUND SET exit_loop = TRUE;
+    
+         OPEN c1;
+  
+         e_loop: LOOP
+             FETCH c1 INTO r2;
+    
+            IF NOT EXISTS (SELECT * FROM N_RollCall WHERE roll_no = r2) THEN
+                 INSERT INTO N_RollCall
+                 SELECT * FROM O_RollCall WHERE roll_no = r2;
+            END IF;
+    
+             IF exit_loop THEN
+                 CLOSE c1;
+                 LEAVE e_loop;
+            END IF;
+         END LOOP e_loop;
+     END;
+     //
+Query OK, 0 rows affected (0.04 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql> CALL p3(3);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SELECT * FROM N_RollCall;
++---------+---------+---------+
+| roll_no | name    | address |
++---------+---------+---------+
+|       4 | Kalpesh | Dhule   |
+|       5 | Abhi    | Satara  |
++---------+---------+---------+
+2 rows in set (0.00 sec)
+
+mysql> CALL p3(0);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SELECT * FROM N_RollCall;
++---------+---------+---------+
+| roll_no | name    | address |
++---------+---------+---------+
+|       4 | Kalpesh | Dhule   |
+|       5 | Abhi    | Satara  |
+|       1 | Hitesh  | Nandura |
+|       2 | Piyush  | MP      |
+|       3 | Ashley  | Nsk     |
++---------+---------+---------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO O_RollCall VALUES (6, 'Patil', 'Kolhapur');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> CALL p3(4);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM N_RollCall;
++---------+---------+----------+
+| roll_no | name    | address  |
++---------+---------+----------+
+|       4 | Kalpesh | Dhule    |
+|       5 | Abhi    | Satara   |
+|       1 | Hitesh  | Nandura  |
+|       2 | Piyush  | MP       |
+|       3 | Ashley  | Nsk      |
+|       6 | Patil   | Kolhapur |
++---------+---------+----------+
+6 rows in set (0.00 sec)
