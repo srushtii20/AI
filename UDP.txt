@@ -1,0 +1,102 @@
+step 1:Make a folder 
+for example:
+📁 UDP_File_Transfer
+
+step 2:
+save file as server.py and copy this in it
+
+import socket
+import os
+
+UDP_IP = "0.0.0.0"       # Listen on all network interfaces
+UDP_PORT = 5001
+BUFFER_SIZE = 1024
+
+# Create UDP socket
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server_socket.bind((UDP_IP, UDP_PORT))
+
+print("UDP Server starting...")
+print(f"UDP Server is listening on port {UDP_PORT}...")
+
+# Receive filename first
+data, addr = server_socket.recvfrom(BUFFER_SIZE)
+filename = data.decode()
+filename = os.path.basename(filename)       # remove path if sent
+save_as = "received_" + filename
+print(f"Receiving file: {filename} from {addr}")
+
+with open(save_as, "wb") as f:
+    chunk_count = 0
+    while True:
+        data, addr = server_socket.recvfrom(BUFFER_SIZE)
+        if data == b'EOF':                   # EOF marker from client
+            print("End of file reached.")
+            break
+        f.write(data)
+        chunk_count += 1
+        print(f"Received chunk #{chunk_count}, {len(data)} bytes")
+
+print(f"\nFile received successfully as '{save_as}'")
+server_socket.close()
+
+step 2:
+save one more file as client.py 
+import socket
+import os
+
+UDP_IP = input("Enter server IP address: ")
+UDP_PORT = 5001
+BUFFER_SIZE = 1024
+
+filename = input("Enter the file name to send: ")
+basename = os.path.basename(filename)  # just the file name
+
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# Send filename first
+client_socket.sendto(basename.encode(), (UDP_IP, UDP_PORT))
+print(f"Filename '{basename}' sent to server.")
+
+# Send file data
+with open(filename, "rb") as f:
+    chunk_count = 0
+    while True:
+        chunk = f.read(BUFFER_SIZE)
+        if not chunk:
+            break
+        client_socket.sendto(chunk, (UDP_IP, UDP_PORT))
+        chunk_count += 1
+        print(f"Sent chunk #{chunk_count}, {len(chunk)} bytes")
+
+# Send EOF marker
+client_socket.sendto(b'EOF', (UDP_IP, UDP_PORT))
+print("File sent successfully.")
+
+client_socket.close()
+
+step 3:Create a Sample Text File
+
+Open a new Notepad file.
+
+Type something simple like:
+
+This is a UDP file transfer test.
+
+Save it as → udp.txt
+in the same folder (UDP_File_Transfer).
+
+step 4:open cmd change the path to servers file path after changing put this "python server.py"
+output:
+"UDP Server is up and listening on port 5001..."
+
+step 5 :open cmd again change path to client file path and then put "python client.py"
+output:
+Enter server IP address: 127.0.0.1
+Enter the file name to send: udp.txt
+File sent successfully.
+Server response: File received successfully.
+
+step 6: again check server cmd it will show this nowUDP Server is up and listening on port 5001...
+Receiving file: udp.txt from ('127.0.0.1', 59596)
+File 'udp.txt' received successfully and saved as 'received_udp.txt'

@@ -1,0 +1,66 @@
+Step 1: Open Cisco Packet Tracer
+Launch Cisco Packet Tracer on your computer.
+
+🖥️ Step 2: Set Up the Network
+Add Devices
+
+Drag and drop the following devices into the workspace:
+
+1 Router → (e.g., 1841)
+
+1 Switch → (e.g., 2960)
+
+2–3 PCs → (as clients)
+
+Connect Devices
+
+Use Copper Straight-Through Cables
+
+Step 3:Follow these exact commands in the CLI tab of your router:
+
+Router> enable
+Router# configure terminal
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip address 192.168.1.1 255.255.255.0
+Router(config-if)# no shutdown
+Router(config-if)# exit
+Router(config)# ip dhcp excluded-address 192.168.1.1
+Router(config)# ip dhcp pool MY_POOL
+Router(dhcp-config)# network 192.168.1.0 255.255.255.0
+Router(dhcp-config)# default-router 192.168.1.1
+Router(dhcp-config)# dns-server 8.8.8.8
+Router(dhcp-config)# exit
+Router(config)# end
+Router# write
+
+Step 4: Configure PCs (Clients)
+Open Each PC
+
+Click a PC → go to Desktop → open IP Configuration
+
+Set to DHCP
+
+Select DHCP
+
+Wait a few seconds — the PC will automatically get:
+
+An IP Address (e.g., 192.168.1.2)
+
+Subnet Mask (255.255.255.0)
+
+Default Gateway (192.168.1.1)
+
+Step 5: Verify Configuration
+✅ Check on PCs
+Open Command Prompt on each PC.
+
+Type: ipconfig
+
+You should see the assigned IP address from the router’s DHCP pool.
+
+✅ Test Connectivity
+
+Type: ping 192.168.1.3
+
+
+If you get replies, your router and PC are successfully connected.

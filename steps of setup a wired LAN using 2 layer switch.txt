@@ -1,0 +1,67 @@
+Step 1: Create Network Topology
+
+Open Cisco Packet Tracer.
+
+Drag and drop:
+
+1 Layer 2 Switch (2960)
+
+2 PCs (PC0 and PC1)
+
+Use Copper Straight-Through Cables to connect:
+
+PC0 → Switch (FastEthernet0/1)
+
+PC1 → Switch (FastEthernet0/2)
+
+Step 2: Assign IP Addresses
+
+Click on PC0 → Desktop → IP Configuration
+
+IP Address: 192.168.1.2
+
+Subnet Mask: 255.255.255.0
+
+Click on PC1 → Desktop → IP Configuration
+
+IP Address: 192.168.1.3
+
+Subnet Mask: 255.255.255.0
+
+Step 3: Test Connectivity Using Ping
+
+On PC0 → Desktop → Command Prompt, type:
+
+ping 192.168.1.3
+
+
+You should see replies like:
+
+Reply from 192.168.1.3: bytes=32 time<1ms TTL=128
+
+
+✅ This confirms successful communication between the two PCs through the switch.
+
+Step 5: Capture Packets Using Simulation Mode
+
+Click on the Simulation Mode icon (Stopwatch) at the bottom-right of the Packet Tracer.
+
+On PC0, again type:
+
+ping 192.168.1.3
+
+
+Observe the packets (ICMP Request and Reply) moving between the PCs in the Simulation Window.
+
+Click on the packets to view detailed info such as:
+
+Source and Destination MAC Addresses
+
+IP Addresses
+
+ICMP Echo Request and Echo Reply details
+
+Result:
+
+A wired LAN was successfully created using a Layer 2 switch.
+The communication between PCs was verified using the Ping utility, and the ICMP packets were captured and analyzed using Cisco Packet Tracer’s Simulation Mode.

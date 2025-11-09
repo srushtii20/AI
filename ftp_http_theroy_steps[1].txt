@@ -1,0 +1,28 @@
+pc0 ip=192.168.1.2
+pc1 ip=192.168.1.3
+
+server ip=192.168.1.1
+in server services option 
+firstly go to the
+     1]http-i]in that on the server
+                  ii]create one html file name as welcome.html
+      2]off the options between the http and ftp
+then go to the ftp 
+create username,password ,add that user and pass then on five options read,write etc.
+
+then go to the pc0 
+i]text editor-create one file file.html
+ii]go the command prompt(run below command)
+ipconfig
+ping 192.168.1.1(server ip)
+ftp 192.168.1.1(server ip)
+dir(if required)
+put file.html(this file create in text file)
+then successfully transfer file
+
+then go to in that pc0
+and web http-i]http://192.168.1.1/welcome.html
+                          ii]https://192.168.1.1/welcome.html
+
+this shows output html code 
+

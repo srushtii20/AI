@@ -1,0 +1,102 @@
+1. Bus Topology
+
+Devices: 4 PCs + 4 Switch
+IP Addressing: Subnet 192.168.1.0/24
+
+Device	IP Address	Subnet Mask
+PC1	192.168.1.2	255.255.255.0
+PC2	192.168.1.3	255.255.255.0
+PC3	192.168.1.4	255.255.255.0
+PC4	192.168.1.5	255.255.255.0
+
+Steps:
+
+Drag 4 PCs + 4 Switch.
+
+Connect each PC to Switch using Copper Straight-through Cable.
+
+Assign IPs as above.
+
+Test: PC1 → PC3 → ping 192.168.1.4.
+
+2:Star Topology
+
+Devices: 5 PCs + 1 Switch
+Cable: Copper Straight-through
+IP Addressing: Subnet 192.168.1.0/24
+
+Device	IP Address	Subnet Mask
+PC1	192.168.2.2	255.255.255.0
+PC2	192.168.2.3	255.255.255.0
+PC3	192.168.2.4	255.255.255.0
+PC4	192.168.2.5	255.255.255.0
+PC5     192.168.2.6     255.255.255.0
+Steps:
+
+Drag 5 PCs + 1 Switch.
+
+Connect each PC → Switch using Copper Straight-through Cable.
+
+Assign IPs as above.
+
+Test: PC2 → PC4 → ping 192.168.2.5
+
+3 :Ring Topology
+
+Devices: 4 PCs + 4 Switch
+Cable: Copper Cross-over
+IP Addressing: Subnet 192.168.1.0/24
+
+Device	IP Address	Subnet Mask
+PC1	192.168.3.2	255.255.255.0
+PC2	192.168.3.3	255.255.255.0
+PC3	192.168.3.4	255.255.255.0
+PC4	192.168.3.5	255.255.255.0
+
+Steps:
+
+Drag 4 PCs and 4Switch
+
+Connect in a closed loop using Copper Cross-over Cable:
+
+PC1 → PC2 → PC3 → PC4 → PC1
+
+Assign IPs.
+
+Test: PC1 → PC4 → ping 192.168.3.5.
+
+4 : Mesh Topology
+
+Devices: 5 PCs + 5 Switch
+Cable: Copper Cross-over
+IP Addressing: Subnet 192.168.1.0/24
+
+Device	IP Address	Subnet Mask
+PC1	192.168.4.2	255.255.255.0
+PC2	192.168.4.3	255.255.255.0
+PC3	192.168.4.4	255.255.255.0
+PC4	192.168.4.5	255.255.255.0
+PC5     192.168.4.6     255.255.255.0
+Steps:
+
+Drag 5 PCs and % switch 
+
+Connect each switch to a PC 
+
+Assign IPs.
+
+Test: PC1 → PC3 → ping 192.168.1.4.
+
+5: Hybrid Topology :(Star + Bus) 8
+
+8 Switch + 7 PCs
+
+Device	IP Address	Subnet Mask
+PC1	192.168.5.2	255.255.255.0
+PC2	192.168.5.3	255.255.255.0
+PC3	192.168.5.4	255.255.255.0
+PC4	192.168.5.5	255.255.255.0
+PC5	192.168.5.6	255.255.255.0
+PC6	192.168.5.7	255.255.255.0
+PC7     192.168.5.7     255.255.255.0
+
